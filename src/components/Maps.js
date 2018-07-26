@@ -12,18 +12,22 @@ export default class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            region: props.location[0],
+            region: this.props.location[0],
+            locationFetched: this.props.locationFetched,
             loading: true
         }
     }
 
-    componentDidMount() {
-        this.fetchData();
+    componentWillMount() {
+        if (this.state.locationFetched) {
+            this.fetchData();
+            this.setState({region: this.props.location[0]})
+        }
     }
 
     async fetchData() {
         this.setState({loading: true});
-            dataArray = await getData(this.state.region.latitude, this.state.region.longitude, 10);
+        dataArray = await getData(this.state.region.latitude, this.state.region.longitude, 10);
         this.setMarkers(dataArray);
         return dataArray;
     }
@@ -37,11 +41,11 @@ export default class Map extends Component {
                 longitude: data[i].lon
             };
             markers.push(<MapView.Marker coordinate={current} key={i}>
-                  <MapView.Callout>
-                  <Text>{data[i].name}</Text>
-                  <Text>{data[i].location}</Text>
-                  </MapView.Callout>
-                </MapView.Marker>);
+                <MapView.Callout>
+                    <Text>{data[i].name}</Text>
+                    <Text>{data[i].location}</Text>
+                </MapView.Callout>
+            </MapView.Marker>);
         }
 
         this.setState({loading: false});
@@ -51,18 +55,18 @@ export default class Map extends Component {
         this.setState({region: r});
         this.fetchData();
     }
-    
+
     render() {
         return (
                 <View  style={styles.container}>
                 
-                    <MapView style={styles.map} region={this.state.region}
+                    <MapView.Animated style={styles.map} region={this.state.region}
                              showsMyLocationButton={true}
                              showsUserLocation={true}
                              onRegionChangeComplete={e => this.refreshMarkers(e)}>
                 
                         {markers}
-                    </MapView>
+                    </MapView.Animated>
                 </View>
                 );
     }
@@ -87,4 +91,8 @@ const styles = StyleSheet.create({
 
 Map.propTypes = {
     location: PropTypes.array
+};
+
+Map.propTypes = {
+    locationFetched: PropTypes.bool
 };

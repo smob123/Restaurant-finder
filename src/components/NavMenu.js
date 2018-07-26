@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { BottomNavigation, Drawer } from 'react-native-material-ui';
-import Map from './Maps';
-import ListView from './ListView';
-import Profile from './Profile';
+import { BottomNavigation } from 'react-native-material-ui';
 import PropTypes from 'prop-types';
 
 export default class Menu extends Component {
@@ -11,65 +8,47 @@ export default class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            active: 'map',
-            location: this.props.location
+            active: 'profile'
         };
     }
 
+    componentDidMount() {
+        this.setView(this.state.active);
+   }
+   
+   setView(v) {
+       this.setState({active: v});
+       this.props.currentView(v);
+   }
+    
     render() {
         return (
                 <View>
-                <View style={{height: '85%'}}>
-                    { this.state.active === 'map' &&
-                        <Map location={this.state.location}/>
-                            
-                     }
-                     
-                     {
-                     this.state.active === 'list' &&
-                             <ListView location={this.state.location}/>
-                    }
-                    
-                    {
-                        this.state.active === 'profile' &&
-                                <Profile />
-                    }
-                </View>
-                    <View style={{height: '10%'}}>
                     <BottomNavigation active={this.state.active} hidden={false} >
                         <BottomNavigation.Action
                             key="map"
                             icon="map"
                             label="Map"
-                            onPress={() => this.setState({active: 'map' })}
+                            onPress={() => this.setView('map')}
                             />
                         <BottomNavigation.Action
                             key="list"
                             icon="list"
                             label="List"
-                            onPress={() => this.setState({active: 'list' })}
+                            onPress={() => this.setView('list')}
                             />
                         <BottomNavigation.Action
                             key="person"
                             icon="person"
                             label="Profile"
-                            onPress={() => this.setState({active: 'profile' })}
+                            onPress={() => this.setView('profile')}
                             />
                     </BottomNavigation>
-                    </View>
                 </View>
                     );
                 }
             }
-            
-const styles = StyleSheet.create({
-        container: {
-         margin: 0,
-         padding: 0
-        }
-});
-
 
 Menu.propTypes = {
-    location: PropTypes.array
+    currentView: PropTypes.func
 };

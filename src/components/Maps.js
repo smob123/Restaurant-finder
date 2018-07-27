@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text } from 'react-native';
+import {StyleSheet, View, Text, Alert } from 'react-native';
 import MapView from 'react-native-maps';
 import getData from '../assets/fetchPlaces';
 import PropTypes from 'prop-types';
+import {Location, Permissions} from 'expo';
 
 let dataArray = [];
 let markers = [];
@@ -12,24 +13,39 @@ export default class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            region: this.props.location[0],
-            locationFetched: this.props.locationFetched,
-            loading: true
+            region: {
+                latitude: 0,
+                longitude: 0,
+                latitudeDelta: 300,
+                longitudeDelta: 300},
+                loading: true
         }
     }
 
     componentWillMount() {
-        if (this.state.locationFetched) {
-            this.fetchData();
-            this.setState({region: this.props.location[0]})
+     this.getLocationPermission();
+    }
+    
+    async getLocationPermission() {
+        let {status} = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+            Alert.alert('Permission was not granted!');
         }
+            let location = await Location.getCurrentPositionAsync({});
+            this.setState({
+                region: {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01}});
+        
+            await this.props.passLocation(this.state.region);
+            this.fetchData();
     }
 
     async fetchData() {
-        this.setState({loading: true});
-        dataArray = await getData(this.state.region.latitude, this.state.region.longitude, 10);
+        dataArray = await this.props.fetchData;
         this.setMarkers(dataArray);
-        return dataArray;
     }
 
     setMarkers(data) {
@@ -47,26 +63,20 @@ export default class Map extends Component {
                 </MapView.Callout>
             </MapView.Marker>);
         }
-
         this.setState({loading: false});
-    }
-
-    refreshMarkers(r) {
-        this.setState({region: r});
-        this.fetchData();
     }
 
     render() {
         return (
                 <View  style={styles.container}>
                 
-                    <MapView.Animated style={styles.map} region={this.state.region}
+                    <MapView style={styles.map} region={this.state.region}
                              showsMyLocationButton={true}
                              showsUserLocation={true}
-                             onRegionChangeComplete={e => this.refreshMarkers(e)}>
+                             >
                 
                         {markers}
-                    </MapView.Animated>
+                    </MapView>
                 </View>
                 );
     }
@@ -90,9 +100,9 @@ const styles = StyleSheet.create({
 });
 
 Map.propTypes = {
-    location: PropTypes.array
+    fetchData: PropTypes.array
 };
 
 Map.propTypes = {
-    locationFetched: PropTypes.bool
+    passLocation: PropTypes.func
 };

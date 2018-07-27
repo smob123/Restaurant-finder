@@ -3,7 +3,7 @@ import data from './keys';
 export default async function getData(lat, long, num) {
     let places = [];
     let url = 'https://api.foursquare.com/v2/venues/explore?client_id=' + data.clientID + '&client_secret=' + data.clientSecret +
-            '&v=20180101&ll=' + lat + ',' + long + '&query=food&limit=' + num;
+            '&v=20180101&ll=' + lat + ',' + long + '&radius=2000&query=food&limit=' + num;
     await fetch(url)
             .then(fetch.throwErrors)
             .then((res) => res.json())

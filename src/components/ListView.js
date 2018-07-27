@@ -5,29 +5,32 @@ import Card from './CardView';
 import getData from '../assets/fetchPlaces';
 
 let data = [];
-let cards = [];
+let rawData = [];
 
 export default class ListView extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            location: this.props.location[0],
             loading: true
         };
     }
 
-    componentDidMount() {
-        this.getNearByRestturants();
+    componentWillMount() {
+        this.getItems();
     }
 
-    async getNearByRestturants() {
-        let d = await getData(this.state.location.latitude, this.state.location.longitude, 50);
-        
-        for(let i = 0; i < d.length; i++) {
-            data.push({name: d[i].name, address: d[i].location, id: i});
+    async getItems() {
+        rawData = await this.props.content;
+        this.getListItems(rawData);
+    }
+
+    getListItems(dataArray) {
+        if (data.length === 0) {
+            for (let i = 0; i < dataArray.length; i++) {
+                data.push({name: dataArray[i].name, address: dataArray[i].location, id: i});
+            }
         }
-        
         this.setState({loading: false});
     }
 
@@ -36,23 +39,23 @@ export default class ListView extends Component {
                 <View style={styles.container}>
                     <ScrollView>
                         { !this.state.loading &&
-                            data.map((item, index) => (
-                                        <View key = {item.id} style={{width: '100%', alignItems: 'center'}} >
-                                            <Card title={item.name} address={item.address} key={item.id} />
-                                        </View>
-                                                    ))
+                                    data.map((item, index) => (
+                                                <View key = {item.id} style={{width: '100%', alignItems: 'center'}} >
+                                                    <Card title={item.name} address={item.address} key={item.id} />
+                                                </View>
+                                                            ))
                         }
                     </ScrollView>
                 </View>
-                            );
+                                    );
+                        }
+            }
+            const styles = StyleSheet.create({
+                container: {
+                    height: '100%'
                 }
-    }
-    const styles = StyleSheet.create({
-        container: {
-            height: '100%'
-        }
-    });
+            });
 
-    ListView.propTypes = {
-        location: PropTypes.array
-    };
+            ListView.propTypes = {
+                content: PropTypes.object
+            };

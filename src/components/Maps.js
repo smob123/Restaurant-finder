@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Text, Alert } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import MapView from 'react-native-maps';
 import getData from '../assets/fetchPlaces';
 import PropTypes from 'prop-types';
-import {Location, Permissions} from 'expo';
+import { Location, Permissions } from 'expo';
+import MapCalloutCard from '../assets/mapCalloutCard';
 
 let dataArray = [];
 let markers = [];
@@ -12,34 +13,45 @@ export default class Map extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            region: {
-                latitude: 0,
-                longitude: 0,
-                latitudeDelta: 300,
-                longitudeDelta: 300},
+            this.state = {
+                region: {
+                    latitude: 0,
+                    longitude: 0,
+                    latitudeDelta: 300,
+                    longitudeDelta: 300
+                },
                 loading: true
-        }
+            }
     }
 
     componentWillMount() {
-     this.getLocationPermission();
+        if (markers.length === 0) {
+            this.getLocationPermission();
+        }
+        else {
+            this.setState({
+                region: this.props.getLocation(),
+                loading: false
+            });
+        }
     }
-    
+
     async getLocationPermission() {
-        let {status} = await Permissions.askAsync(Permissions.LOCATION);
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== 'granted') {
             Alert.alert('Permission was not granted!');
         }
-            let location = await Location.getCurrentPositionAsync({});
-            this.setState({
-                region: {
+        let location = await Location.getCurrentPositionAsync({});
+        this.setState({
+            region: {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
                 latitudeDelta: 0.01,
-                longitudeDelta: 0.01}});
-        
-            await this.props.passLocation(this.state.region);
+                longitudeDelta: 0.01
+            }
+        });
+
+        await this.props.passLocation(this.state.region);
             this.fetchData();
     }
 
@@ -51,34 +63,37 @@ export default class Map extends Component {
     setMarkers(data) {
         let current;
         markers = [];
+
         for (let i = 0; i < data.length; i++) {
             current = {
                 latitude: data[i].lat,
-                longitude: data[i].lon
+                longitude: data[i].lon,
+                show: true
             };
+
             markers.push(<MapView.Marker coordinate={current} key={i}>
                 <MapView.Callout>
-                    <Text>{data[i].name}</Text>
-                    <Text>{data[i].location}</Text>
+                    <MapCalloutCard name={data[i].name} location={data[i].location} visible={current.show} />
                 </MapView.Callout>
             </MapView.Marker>);
         }
-        this.setState({loading: false});
+
+        this.setState({ loading: false });
     }
 
     render() {
         return (
-                <View  style={styles.container}>
-                
-                    <MapView style={styles.map} region={this.state.region}
-                             showsMyLocationButton={true}
-                             showsUserLocation={true}
-                             >
-                
-                        {markers}
-                    </MapView>
-                </View>
-                );
+            <View style={styles.container}>
+
+                <MapView style={styles.map} region={this.state.region}
+                    showsUserLocation={true}
+                    showsMyLocationButton={true}
+                >
+
+                    {markers}
+                </MapView>
+            </View>
+        );
     }
 }
 
@@ -105,4 +120,8 @@ Map.propTypes = {
 
 Map.propTypes = {
     passLocation: PropTypes.func
+};
+
+Map.propTypes = {
+    getLocation: PropTypes.func
 };

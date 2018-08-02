@@ -21,17 +21,20 @@ export default class ListView extends Component {
     }
 
     async getItems() {
-        rawData = await this.props.content;
-        this.getListItems(rawData);
+        if (data.length === 0) {
+            rawData = await this.props.content;
+            this.getListItems(rawData);
+        }
+        else {
+            this.setState({loading: false});
+        }
     }
 
     getListItems(dataArray) {
-        if (data.length === 0) {
-            for (let i = 0; i < dataArray.length; i++) {
-                data.push({name: dataArray[i].name, address: dataArray[i].location, id: i});
-            }
+        for (let i = 0; i < 10; i++) {
+            data.push({name: dataArray[i].name, address: dataArray[i].location, id: i});
         }
-        this.setState({loading: false});
+        this.setState({ loading: false });
     }
 
     render() {
@@ -39,12 +42,13 @@ export default class ListView extends Component {
                 <View style={styles.container}>
                     <ScrollView>
                         { !this.state.loading &&
-                                    data.map((item, index) => (
-                                                <View key = {item.id} style={{width: '100%', alignItems: 'center'}} >
-                                                    <Card title={item.name} address={item.address} key={item.id} />
-                                                </View>
-                                                            ))
-                        }
+                          data.map((item, index) => (
+                           <View key = {item.id} style={{width: '100%', alignItems: 'center'}} >
+                             <Card title={item.name} address={item.address} key={item.id} />
+                           </View>
+                        ))
+                    }
+                    <Text>Load more...</Text>
                     </ScrollView>
                 </View>
                                     );

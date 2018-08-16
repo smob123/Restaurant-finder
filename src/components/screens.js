@@ -6,6 +6,7 @@ import Profile from './Profile';
 import PropTypes from 'prop-types';
 import { Location, Permissions } from 'expo';
 import getData from '../assets/fetchPlaces';
+import Login from './login';
 
 let data = [];
 

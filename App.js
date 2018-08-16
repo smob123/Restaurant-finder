@@ -1,44 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, ToolbarAndroid, Alert, ActivityIndicator } from 'react-native';
-import Menu from './src/components/NavMenu';
-import Screens from './src/components/screens';
+import Login from './src/components/login';
+import Main from './src/components/Main';
 
-export default class App extends React.Component {
+export default class App extends Component {
 
     constructor() {
         super();
         this.state = {
-            dataReceived: false,
-            loading: true
+            loggedIn: false
         };
     }
 
-    handleView(v) {
-        this.setState({currentView: v});
-        this.setState({loading: false});
+    handleLogin(val) {
+        this.setState({ loggedIn: val });
     }
 
     render() {
         return (
-                <View style={styles.container}>
-                    <View style={{flex: 1}}>
-                        <ToolbarAndroid title='My app' titleColor='white' style={styles.toolbar} />
-                        
-                        { !this.state.loading &&
-                         <Screens locationFethced={this.state.dataReceived} 
-                           view={this.state.currentView} loading={this.state.loading} />
-                        }
-                
-                        { this.state.loading &&
-                          <View style={styles.centerView}>
-                            <ActivityIndicator size='large' />        
-                          </View>
-                        }
-                    </View>
-                
-                    <View style={{flex: 0, marginTop: '16%'}}>
-                        <Menu currentView={this.handleView.bind(this)} />
-                    </View>
+            <View style={styles.container}>
+                {
+                    !this.state.loggedIn &&
+                    <Login loginState={this.handleLogin.bind(this)} />
+                }
+                {this.state.loggedIn &&
+                    <Main />
+                }
                 </View>
                                 );
                     }
@@ -49,16 +36,5 @@ export default class App extends React.Component {
                 width: '100%',
                 height: '100%',
                 backgroundColor: '#fff'
-            },
-            toolbar: {
-                width: '100%',
-                height: '12%',
-                backgroundColor: '#ff0000'
-            },
-            centerView: {
-                width: '100%',
-                height: '100%',
-                justifyContent: 'center',
-                alignItems: 'center'
             }
         });

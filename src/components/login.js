@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Button } from 'react-native';
 import PropTypes from 'prop-types';
 
 export default class Login extends Component {
@@ -18,20 +18,22 @@ export default class Login extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.logoContainer}>
-                    <Image source={require('../images/logo.png')} style={styles.img} />
-                </View>
-                <View style={styles.txtContainer}>
-                    <TextInput placeholder='Username' style={styles.textInput} />
-                    <TextInput placeholder='Password' style={styles.textInput} />
+                <View>
+                    <View style={styles.logoContainer}>
+                        <Image source={require('../images/logo.png')} style={styles.img} />
+                    </View>
+                    <View>
+                        <TextInput placeholder='Username' style={styles.textInput} />
+                        <TextInput placeholder='Password' style={styles.textInput} />
 
-                    <TouchableOpacity style={styles.buttonStyle} onPress={() => this.handleSignin()} >
-                        <Text style={styles.buttonTxt}>Login</Text>
-                    </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                            <Button title='Login' onPress={() => this.handleSignin()} color='red' />
+                        </View>
 
-                    <View style={styles.bottomView}>
-                        <View><Text style={styles.blueTxt}>Signup</Text></View>
-                        <View><Text style={styles.blueTxt}>Forgot password</Text></View>
+                        <View style={styles.bottomView}>
+                            <View><Text style={styles.blueTxt}>Signup</Text></View>
+                            <View><Text style={styles.blueTxt}>Forgot password</Text></View>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -41,14 +43,12 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%'
-    },
-    textInput: {
-        width: '50%'
+        height: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     logoContainer: {
-        width: '100%',
-        height: '15%',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -58,29 +58,22 @@ const styles = StyleSheet.create({
         marginTop: '50%'
     },
     txtContainer: {
-        width: '100%',
-        height: '100%',
         justifyContent: 'center',
         alignItems: 'center'
     },
-    buttonStyle: {
-        backgroundColor: 'red',
-        width: '30%',
-        justifyContent: 'center',
-        alignItems: 'center',
+    textInput: {
+        width: '50%',
         marginTop: '10%'
     },
-    buttonTxt: {
-        marginTop: '10%',
-        color: 'white',
-        fontWeight: '700'
+    buttonContainer: {
+        marginTop: '20%',
+        marginBottom: '20%'
     },
     bottomView: {
-        width: '50%',
-        height: '5%',
+        width: '100%',
         marginTop: '5%',
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     blueTxt: {
         color: 'blue'

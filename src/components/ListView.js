@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import Card from './CardView';
-import getData from '../assets/fetchPlaces';
 
 let data = [];
 let rawData = [];
@@ -27,7 +26,7 @@ export default class ListView extends Component {
             this.getListItems();
         }
         else {
-            this.setState({loading: false});
+            this.setState({ loading: false });
         }
     }
 
@@ -46,39 +45,38 @@ export default class ListView extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView>
-                        { !this.state.loading &&
-                          data.map((item, index) => (
-                           <View key = {item.id} style={{width: '100%', alignItems: 'center'}} >
-                             <Card title={item.name} address={item.address} key={item.id} />
-                           </View>
+                    {!this.state.loading &&
+                        data.map((item, index) => (
+                            <View key={item.id} style={{ width: '100%', alignItems: 'center' }} >
+                                <Card title={item.name} address={item.address} key={item.id} />
+                            </View>
                         ))
                     }
-                    <TouchableOpacity onPress={() => this.getListItems()} style={styles.buttonStyle} >
-                        <Text style={styles.buttonTxt}>Load more</Text>
-                    </TouchableOpacity>
-                    </ScrollView>
-                </View>
-                                    );
-                        }
-            }
-            const styles = StyleSheet.create({
-                container: {
-                    height: '100%'
-                },
-                buttonStyle: {
-                    width: '50%',
-                    marginTop: '5%',
-                    backgroundColor: 'red',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    alignSelf: 'center'
-                },
-                buttonTxt: {
-                    color: 'white',
-                    marginTop: '5%'
-                }
-            });
 
-            ListView.propTypes = {
-                content: PropTypes.object
-            };
+                    <Button title='Load more' onPress={() => this.getListItems()} />
+                </ScrollView>
+            </View>
+        );
+    }
+}
+const styles = StyleSheet.create({
+    container: {
+        height: '100%'
+    },
+    buttonStyle: {
+        width: '50%',
+        marginTop: '5%',
+        backgroundColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center'
+    },
+    buttonTxt: {
+        color: 'white',
+        marginTop: '5%'
+    }
+});
+
+ListView.propTypes = {
+    content: PropTypes.object
+};

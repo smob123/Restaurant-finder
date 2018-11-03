@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
+import MapView from 'react-native-maps';
 import PropTypes from 'prop-types';
-import { Location, Permissions, MapView } from 'expo';
+import { Location, Permissions } from 'expo';
 import MapCalloutCard from '../assets/mapCalloutCard';
 
 let dataArray = [];

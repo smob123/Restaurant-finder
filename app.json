@@ -9,7 +9,12 @@
       "bundleIdentifier": "com.example.restaurantFinder"
     },
     "android": {
-      "package": "com.example.restaurantFinder"
+      "package": "com.example.restaurantFinder",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyABBRZVkw2yp1k9fI0lCRgga_vN0WSWcDM"
+        }
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ToolbarAndroid, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Login from './src/components/login';
 import Main from './src/components/Main';
 
@@ -26,15 +26,15 @@ export default class App extends Component {
                 {this.state.loggedIn &&
                     <Main />
                 }
-                </View>
-                                );
-                    }
-                }
+            </View>
+        );
+    }
+}
 
-        const styles = StyleSheet.create({
-            container: {
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#fff'
-            }
-        });
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#fff'
+    }
+});

@@ -4,9 +4,9 @@ This is a hybrid app that displays nearby restaurants using Google maps, and fou
 
 
 ## Running the project:
-- run npm install.
+- run "npm install".
 
-- run expo start to start development mode.
+- run "expo start" to start development mode.
 
 ## Screenshots:
 

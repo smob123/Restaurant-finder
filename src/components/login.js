@@ -6,6 +6,9 @@ export default class Login extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            username: ''
+        }
     }
 
     handleSignin() {
@@ -73,6 +76,7 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     },
     bottomView: {
+        width: '50%',
         height: '5%',
         marginTop: '5%',
         flexDirection: 'row',

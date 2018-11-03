@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Restaurant finder",
+    "version": "0.1.0",
+    "icon": "./src/images/app-icon.png",
+    "slug": "restaurant-finder",
+    "sdkVersion": "31.0.0",
+    "ios": {
+      "bundleIdentifier": "com.example.restaurantFinder"
+    },
+    "android": {
+      "package": "com.example.restaurantFinder"
+    }
   }
 }

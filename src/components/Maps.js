@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Alert } from 'react-native';
-import MapView from 'react-native-maps';
-import getData from '../assets/fetchPlaces';
 import PropTypes from 'prop-types';
-import { Location, Permissions } from 'expo';
+import { Location, Permissions, MapView } from 'expo';
 import MapCalloutCard from '../assets/mapCalloutCard';
 
 let dataArray = [];
@@ -13,15 +11,15 @@ export default class Map extends Component {
 
     constructor(props) {
         super(props);
-            this.state = {
-                region: {
-                    latitude: 0,
-                    longitude: 0,
-                    latitudeDelta: 300,
-                    longitudeDelta: 300
-                },
-                loading: true
-            }
+        this.state = {
+            region: {
+                latitude: 0,
+                longitude: 0,
+                latitudeDelta: 300,
+                longitudeDelta: 300
+            },
+            loading: true
+        }
     }
 
     componentWillMount() {
@@ -52,7 +50,7 @@ export default class Map extends Component {
         });
 
         await this.props.passLocation(this.state.region);
-            this.fetchData();
+        this.fetchData();
     }
 
     async fetchData() {
@@ -89,7 +87,6 @@ export default class Map extends Component {
                     showsUserLocation={true}
                     showsMyLocationButton={true}
                 >
-
                     {markers}
                 </MapView>
             </View>

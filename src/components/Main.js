@@ -22,7 +22,7 @@ export default class Main extends Component {
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
-                    <ToolbarAndroid title='My app' titleColor='white' style={styles.toolbar} />
+                    <ToolbarAndroid title='Restaurant finder' titleColor='white' style={styles.toolbar} />
 
                     {!this.state.loading &&
                         <Screens locationFethced={this.state.dataReceived}

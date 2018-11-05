@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Button } from 'react-native';
+import { View, Text, Image, TextInput, StyleSheet, Button } from 'react-native';
 import PropTypes from 'prop-types';
 
 export default class Login extends Component {
+
+    static navigationOptions = {
+        header: null
+    }
 
     constructor(props) {
         super(props);
@@ -27,7 +31,7 @@ export default class Login extends Component {
                         <TextInput placeholder='Password' style={styles.textInput} />
 
                         <View style={styles.buttonContainer}>
-                            <Button title='Login' onPress={() => this.handleSignin()} color='red' />
+                            <Button title='Login' onPress={() => this.props.navigation.navigate('MainScreen')} color='red' />
                         </View>
 
                         <View style={styles.bottomView}>
@@ -49,6 +53,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     logoContainer: {
+        marginBottom: '10%',
         justifyContent: 'center',
         alignItems: 'center'
     },

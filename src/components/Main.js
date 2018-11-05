@@ -1,64 +1,108 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ToolbarAndroid, Alert, ActivityIndicator } from 'react-native';
-import Menu from './NavMenu';
-import Screens from './screens';
+import { createBottomTabNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Maps from './Maps';
+import ListView from './ListView';
+import Profile from './Profile';
+import getData from '../assets/fetchPlaces';
 
-export default class Main extends Component {
+let data = [];
+
+class Main extends Component {
+
+    // top bar navigation settings
+
+    static navigationOptions = {
+        title: 'Restaurant finder',
+        headerStyle: {
+            backgroundColor: 'red'
+        },
+        headerTintColor: '#fff', // text color
+        headerLeft: null // remove return button
+    }
 
     constructor() {
         super();
         this.state = {
-            dataReceived: false,
-            loading: true
+            passLocation: this.setGeoLocation.bind(this),
+            fetchData: this.fetchNearbyRestaurants.bind(this),
+            location: null,
+            region: { // default region credintials
+                latitude: 0,
+                longitude: 0,
+                latitudeDelta: 300,
+                longitudeDelta: 300
+            },
+            dataFetched: false // checks if fetching nearby restaurants is complete
         };
     }
 
-    handleView(v) {
-        this.setState({ currentView: v });
-        this.setState({ loading: false });
+    // gets called by Maps.js to get current user's location
+    setGeoLocation(region) {
+        this.setState({
+            region
+        });
+    }
+
+    // making an api request based on current user location
+    async fetchNearbyRestaurants() {
+
+        // if the data array is empty or the data hasn't been fetched yet
+        if (data.length === 0 || !this.state.dataFetched) {
+            // make the api request
+            data = await getData(this.state.region.latitude, this.state.region.longitude, 100);
+        }
+
+        this.setState({ dataFetched: true });
+
+        return data;
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={{ flex: 1 }}>
-                    <ToolbarAndroid title='Restaurant finder' titleColor='white' style={styles.toolbar} />
-
-                    {!this.state.loading &&
-                        <Screens locationFethced={this.state.dataReceived}
-                            view={this.state.currentView} loading={this.state.loading} />
-                    }
-
-                    {this.state.loading &&
-                        <View style={styles.centerView}>
-                            <ActivityIndicator size='large' />
-                        </View>
-                    }
-                </View>
-
-                <View style={{ flex: 0, marginTop: '16%' }}>
-                    <Menu currentView={this.handleView.bind(this)} />
-                </View>
-            </View>
+            <TabNavigator screenProps={this.state} />
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#fff'
+const TabNavigator = createBottomTabNavigator({
+    Map: {
+        screen: Maps,
+        navigationOptions: {
+            // tab icon
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name='md-map' color={tintColor} size={24} />
+            )
+        }
     },
-    toolbar: {
-        width: '100%',
-        height: '12%',
-        backgroundColor: '#ff0000'
+    List: {
+        screen: ListView,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                // tab icon
+                <Icon name='md-list' color={tintColor} size={24} />
+            )
+        }
     },
-    centerView: {
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
+    Profile: {
+        screen: Profile,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+                // tab icon
+                <Icon name='md-person' color={tintColor} size={24} />
+            )
+        }
     }
-});
+},
+    {
+        // tab settings
+        tabBarOptions: {
+            // if tab is active set its color to lightblue
+            activeTintColor: '#68b8ff',
+
+            // if tab is inactive set its color to grey
+            inactiveTintColor: 'gray'
+        }
+    });
+
+export default Main;

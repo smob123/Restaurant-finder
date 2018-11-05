@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Button } from 'react-native';
+import { View, StyleSheet, ScrollView, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import Card from './CardView';
 
@@ -22,7 +22,7 @@ export default class ListView extends Component {
 
     async getItems() {
         if (data.length === 0) {
-            rawData = await this.props.content;
+            rawData = await this.props.screenProps.fetchData();
             this.getListItems();
         }
         else {

@@ -5,31 +5,38 @@ import PropTypes from 'prop-types';
 import { Location, Permissions } from 'expo';
 import MapCalloutCard from '../assets/mapCalloutCard';
 
-let dataArray = [];
-let markers = [];
+let dataArray = []; // stores data from the api request
+
+let markers = []; // stores marker data to be dislayed on the map
 
 export default class Map extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
+            // initial region settings
             region: {
                 latitude: 0,
                 longitude: 0,
                 latitudeDelta: 300,
                 longitudeDelta: 300
             },
-            loading: true
+            loading: true // waits for data to be retrived from the api request
         }
     }
 
+    // check if data was already fetched before
+
     componentWillMount() {
+        // if there are no markers stored
         if (markers.length === 0) {
+            // check location permissions
             this.getLocationPermission();
         }
         else {
             this.setState({
-                region: this.props.getLocation(),
+                region: this.props.screenProps.getLocation(), // update the default location
                 loading: false
             });
         }
@@ -50,33 +57,36 @@ export default class Map extends Component {
             }
         });
 
-        await this.props.passLocation(this.state.region);
+        // pass current location data to Main.js
+        await this.props.screenProps.passLocation(this.state.region);
         this.fetchData();
     }
 
     async fetchData() {
-        dataArray = await this.props.fetchData;
+        // get api response from Main.js
+        dataArray = await this.props.screenProps.fetchData();
         this.setMarkers(dataArray);
     }
 
     setMarkers(data) {
-        let current;
-        markers = [];
+        let current; // current marker
+        markers = []; // make sure that the markers array is empty
 
         for (let i = 0; i < data.length; i++) {
             current = {
                 latitude: data[i].lat,
-                longitude: data[i].lon,
-                show: true
+                longitude: data[i].lon
             };
 
+            // push current credintials into a marker, and set its callout card data
             markers.push(<MapView.Marker coordinate={current} key={i}>
                 <MapView.Callout>
-                    <MapCalloutCard name={data[i].name} location={data[i].location} visible={current.show} />
+                    <MapCalloutCard name={data[i].name} location={data[i].location} />
                 </MapView.Callout>
             </MapView.Marker>);
         }
 
+        // when done set loading to false
         this.setState({ loading: false });
     }
 

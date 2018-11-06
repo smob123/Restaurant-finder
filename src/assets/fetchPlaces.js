@@ -1,28 +1,20 @@
-import data from './keys';
+import keys from './appKeys';
 
 export default async function getData(lat, long, num) {
     let places = [];
-    let url = `https://api.foursquare.com/v2/venues/explore?client_id=${data.clientID}&client_secret=${data.clientSecret}
-            &v=20180111&ll=${lat},${long}&radius=2000&query=food&limit=${num}`;
+    let url = `https://places.cit.api.here.com/places/v1/browse?at=${lat},${long}&q=food&size=200&app_id=${keys.appID}&app_code=${keys.appCode}`;
+
     await fetch(url)
-        .then(fetch.throwErrors)
         .then((res) => res.json())
         .then((json) => {
-            if (json.response.groups) {
-                for (let i = 0; i < json.response.groups.length; i++) {
-                    for (let j = 0; j < json.response.groups[0].items.length; j++) {
-                        name = json.response.groups[i].items[j].venue.name;
-                        location = json.response.groups[i].items[j].venue.location.formattedAddress[0];
-                        latitude = json.response.groups[i].items[j].venue.location.lat;
-                        longitude = json.response.groups[i].items[j].venue.location.lng;
-                        places.push(place = {
-                            name: name,
-                            location: location,
-                            lat: latitude,
-                            lon: longitude
-                        });
-                    }
-                }
+            for (let i = 0; i < json.results.items.length; i++) {
+                places.push(place = {
+                    name: json.results.items[i].title,
+                    icon: json.results.items[i].icon,
+                    location: json.results.items[i].vicinity.replace('<br/>', ', '),
+                    lat: json.results.items[i].position[0],
+                    lon: json.results.items[i].position[1]
+                });
             }
         });
 

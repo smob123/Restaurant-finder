@@ -10,7 +10,6 @@ export default class Profile extends Component {
                     <Image source={require('../images/profileImg.png')} style={{ width: 130, height: 130 }} />
                     <Text>Username</Text>
                     <Text>email</Text>
-                    <Button title='Favourites' color='red' onPress={() => { }} />
                 </View>
 
                 <View style={styles.signoutContainer}>

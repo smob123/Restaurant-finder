@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { StyleSheet, View, Image, Alert } from 'react-native';
 import MapView from 'react-native-maps';
 import PropTypes from 'prop-types';
 import { Location, Permissions } from 'expo';
@@ -93,7 +93,6 @@ export default class Map extends Component {
     render() {
         return (
             <View style={styles.container}>
-
                 <MapView style={styles.map} region={this.state.region}
                     showsUserLocation={true}
                     showsMyLocationButton={true}

@@ -17,5 +17,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # configeration files
-app.json
+appKeys.js
 restaurant-finder.jks

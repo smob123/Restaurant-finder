@@ -50,7 +50,7 @@ class Main extends Component {
         // if the data array is empty or the data hasn't been fetched yet
         if (data.length === 0 || !this.state.dataFetched) {
             // make the api request
-            data = await getData(this.state.region.latitude, this.state.region.longitude, 100);
+            data = await getData(this.state.region.latitude, this.state.region.longitude);
         }
 
         this.setState({ dataFetched: true });

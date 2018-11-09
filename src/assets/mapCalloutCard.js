@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 
@@ -22,26 +22,28 @@ export default class MapCalloutCard extends Component {
 
     componentDidUpdate() {
         if (this.state.visible !== this.props.visible) {
-            this.setState({visible: this.props.visible});
+            this.setState({ visible: this.props.visible });
         }
     }
 
     render() {
-        return(
-                <View style={styles.container}>
-                    <Text>{this.state.name}</Text>
-                    <Text>{this.state.location}</Text>
-                    <Text>Rating: 0</Text>
-                </View>
-                );
+        return (
+            <View style={styles.container}>
+                <Text style={styles.centeredTxt}>{this.state.name}</Text>
+                <Text style={styles.centeredTxt}>{this.state.location}</Text>
+                <Text style={styles.centeredTxt}>Rating: 0</Text>
+            </View>
+        );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
         width: 220,
-        justifyContent: 'center',
         alignItems: 'center'
+    },
+    centeredTxt: {
+        textAlign: 'center'
     }
 });
 

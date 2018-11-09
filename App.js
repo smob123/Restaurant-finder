@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native'; //SafeAreaView to optimize the app for phone nothces
 import Login from './src/components/login';
 import Main from './src/components/Main';
 import { createStackNavigator } from 'react-navigation';
@@ -7,9 +7,9 @@ import { createStackNavigator } from 'react-navigation';
 export default class App extends Component {
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <AppStackNavigator />
-            </View>
+            </SafeAreaView>
         );
     }
 }

@@ -13,7 +13,8 @@ export default class ListView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            data: []
         };
     }
 
@@ -54,7 +55,19 @@ export default class ListView extends Component {
             start = end;
             end += 10;
         }
-        this.setState({ loading: false });
+        this.setState({ data, loading: false });
+    }
+
+    filterList(txt) {
+        //find the items the match the serch term
+        const filteredList = data.filter((item) => {
+            const currentItem = item.name.toUpperCase();
+            const searchTerm = txt.toUpperCase();
+
+            return currentItem.indexOf(searchTerm) > -1; //return all items that match the search term
+        });
+
+        this.setState({ data: filteredList });
     }
 
     render() {
@@ -62,11 +75,11 @@ export default class ListView extends Component {
             <View style={styles.container}>
                 <View style={styles.serachBarContainer}>
                     <Icon name='md-search' style={styles.searchIcon} />
-                    <TextInput placeholder='Search' style={styles.searchBar} />
+                    <TextInput placeholder='Search' style={styles.searchBar} onChangeText={(txt) => this.filterList(txt)} />
                 </View>
                 <ScrollView>
                     {!this.state.loading &&
-                        data.map((item, index) => (
+                        this.state.data.map((item, index) => (
                             <View key={item.id} style={{ width: '100%', alignItems: 'center' }} >
                                 <Card title={item.name} category={item.category} type={item.type}
                                     address={item.address} distance={item.distance} hours={item.hours}

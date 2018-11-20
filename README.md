@@ -1,6 +1,6 @@
 # Restaurant finder
 
-This is a hybrid app that displays nearby restaurants using Google maps, and foursquare places API.
+This is a hybrid app that displays nearby restaurants using Google maps, and HERE places API.
 
 
 ## Running the project:

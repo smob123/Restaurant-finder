@@ -21,10 +21,11 @@ class Main extends Component {
         headerLeft: null // remove return button
     }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             passLocation: this.setGeoLocation.bind(this),
+            getLocation: this.getGeoLocation.bind(this),
             fetchData: this.fetchNearbyRestaurants.bind(this),
             location: null,
             region: { // default region credintials
@@ -33,7 +34,8 @@ class Main extends Component {
                 latitudeDelta: 300,
                 longitudeDelta: 300
             },
-            dataFetched: false // checks if fetching nearby restaurants is complete
+            dataFetched: false, // checks if fetching nearby restaurants is complete
+            rootNav: this.props.navigation
         };
     }
 
@@ -42,6 +44,10 @@ class Main extends Component {
         this.setState({
             region
         });
+    }
+
+    getGeoLocation() {
+        return this.state.region;
     }
 
     // making an api request based on current user location

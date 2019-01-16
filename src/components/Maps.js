@@ -29,17 +29,8 @@ export default class Map extends Component {
     // check if data was already fetched before
 
     componentWillMount() {
-        // if there are no markers stored
-        if (markers.length === 0) {
-            // check location permissions
-            this.getLocationPermission();
-        }
-        else {
-            this.setState({
-                region: this.props.screenProps.getLocation(), // update the default location
-                loading: false
-            });
-        }
+        // check location permissions
+        this.getLocationPermission();
     }
 
     async getLocationPermission() {
@@ -59,7 +50,10 @@ export default class Map extends Component {
 
         // pass current location data to Main.js
         await this.props.screenProps.passLocation(this.state.region);
-        this.fetchData();
+
+        if (markers.length === 0) {
+            this.fetchData();
+        }
     }
 
     async fetchData() {

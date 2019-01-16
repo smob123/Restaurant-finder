@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, Button } from 'react-native';
+import { StyleSheet, View, Text, Image, Button, AsyncStorage } from 'react-native';
 
 export default class Profile extends Component {
+
+
+    constructor(props) {
+        super(props);
+    }
+
+    async handleSignout() {
+        await AsyncStorage.removeItem('user');
+        this.props.screenProps.rootNav.goBack();
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -13,7 +24,7 @@ export default class Profile extends Component {
                 </View>
 
                 <View style={styles.signoutContainer}>
-                    <Button title='Signout' color='red' onPress={() => { }} />
+                    <Button title='Signout' color='red' onPress={() => { this.handleSignout() }} />
                 </View>
 
             </View>

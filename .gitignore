@@ -19,3 +19,4 @@ yarn-error.log*
 # configeration files
 appKeys.js
 restaurant-finder.jks
+src/assets/config.js

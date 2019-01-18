@@ -31,8 +31,8 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: ''
+            userEmail: '',
+            userPassword: ''
         }
     }
 
@@ -66,16 +66,14 @@ class Login extends Component {
                             </View>
                             <View>
                                 <KeyboardAvoidingView behavior='padding'>
-                                    <TextInput placeholder='E-mail' style={styles.textInput} onChangeText={e => this.setState({ email: e })} />
-                                    <TextInput placeholder='Password' secureTextEntry={true} onChangeText={e => this.setState({ password: e })}
+                                    <TextInput placeholder='E-mail' style={styles.textInput} onChangeText={e => this.setState({ userEmail: e })} />
+                                    <TextInput placeholder='Password' secureTextEntry={true} onChangeText={e => this.setState({ userPassword: e })}
                                         style={styles.textInput} />
 
                                     <View style={styles.buttonContainer}>
                                         <Button title='Login' onPress={async (e) => {
                                             await Login({
-                                                variables: {
-                                                    userEmail: this.state.email, userPassword: this.state.password
-                                                }
+                                                variables: this.state
                                             })
                                         }}
                                             color='red' />

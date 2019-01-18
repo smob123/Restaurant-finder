@@ -28,13 +28,14 @@ class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: ''
+            userEmail: '',
+            Username: '',
+            userPassword: ''
         }
     }
 
     async handleSignup(e) {
-        const userData = { email: e.Login.email, jwt: e.Login.jwt };
+        const userData = { email: e.Signup.email, jwt: e.Signup.jwt };
 
         try {
             await AsyncStorage.setItem('user', JSON.stringify(userData));
@@ -48,23 +49,19 @@ class Signup extends Component {
 
     render() {
         return (
-            <Mutation mutation={SignupMutation} onError={e => console.log(e)} onCompleted={(e) => this.handleSignup(e)}>
+            <Mutation mutation={SignupMutation} onError={e => alert(e)} onCompleted={(e) => this.handleSignup(e)}>
                 {Signup => (
                     <KeyboardAvoidingView behavior='padding' style={styles.container}>
                         <Text style={styles.header}>Signup</Text>
-                        <TextInput placeholder='Username' style={styles.textInput} onChange={e => this.setState({ username: e })} />
-                        <TextInput placeholder='E-mail' style={styles.textInput} onChangeText={e => this.setState({ email: e })} />
-                        <TextInput placeholder='Password' secureTextEntry={true} onChangeText={e => this.setState({ password: e })}
+                        <TextInput placeholder='Username' style={styles.textInput} onChangeText={e => this.setState({ Username: e })} />
+                        <TextInput placeholder='E-mail' style={styles.textInput} onChangeText={e => this.setState({ userEmail: e })} />
+                        <TextInput placeholder='Password' secureTextEntry={true} onChangeText={e => this.setState({ userPassword: e })}
                             style={styles.textInput} />
 
                         <View style={styles.buttonContainer}>
                             <Button title='Signup' onPress={async (e) => {
                                 await Signup({
-                                    variables: {
-                                        Username: this.state.username,
-                                        userEmail: this.state.email,
-                                        userPassword: this.state.password
-                                    }
+                                    variables: this.state
                                 })
                             }}
                                 color='red' />

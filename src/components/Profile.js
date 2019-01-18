@@ -10,7 +10,7 @@ export default class Profile extends Component {
 
     async handleSignout() {
         await AsyncStorage.removeItem('user');
-        this.props.screenProps.rootNav.goBack();
+        this.props.screenProps.rootNav.navigate('LoginScreen');
     }
 
     render() {

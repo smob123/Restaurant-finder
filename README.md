@@ -11,7 +11,7 @@ This is a hybrid app that displays nearby restaurants using Google maps, and HER
 ## Logging in
 Dummy user credentials:
 
-Username: admin <br />
+email: admin@email.com <br />
 Password: admin.
 
 

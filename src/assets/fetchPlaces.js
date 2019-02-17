@@ -7,8 +7,9 @@ export default async function getData(lat, long) {
     await fetch(url)
         .then((res) => res.json())
         .then((json) => {
+            const restaurants = json.results.items;
 
-            for (let i = 0; i < json.results.items.length; i++) {
+            for (let i = 0; i < restaurants.length; i++) {
                 let type, hours, open;
 
                 if (json.results.items[i].openingHours !== undefined) {

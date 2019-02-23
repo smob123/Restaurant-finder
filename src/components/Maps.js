@@ -4,12 +4,9 @@ import MapView from 'react-native-maps';
 import PropTypes from 'prop-types';
 import { Location, Permissions } from 'expo';
 import MapCalloutCard from '../assets/mapCalloutCard';
-import themes from '../assets/mapStyle';
 import getRout from '../assets/fetchRoutes';
 
-
 let dataArray = []; // stores data from the api request
-let markers = [];
 
 export default class Map extends Component {
 
@@ -26,7 +23,7 @@ export default class Map extends Component {
             },
             markers: [], //map markers that display restaurant locations
             rout: [], //the rout from the user's location to the chosen restaurant
-            loading: true
+            loading: true // waits for data to be retrived from the api request
         }
     }
 
@@ -58,9 +55,6 @@ export default class Map extends Component {
         if (this.state.markers.length === 0) {
             this.fetchData();
         }
-        else {
-            this.setState({ loading: false });
-        }
     }
 
     async fetchData() {
@@ -71,17 +65,20 @@ export default class Map extends Component {
 
     async setMarkers(data) {
         let current; // current marker
-        markers = []; // make sure that the markers array is empty
+        this.setState({ markers: [] }); // make sure that the markers array is empty
 
+        const l = { 'latitude': this.state.region.latitude, 'longitude': this.state.region.longitude };
         for (let i = 0; i < data.length; i++) {
             current = {
                 latitude: data[i].lat,
                 longitude: data[i].lon
             };
 
+            const rout = await getRout(l, current);
+
             // push current credintials into a marker, and set its callout card data
-            markers.push(<MapView.Marker coordinate={current} key={i}>
-                <MapView.Callout onPress={(e) => this.setRout(e)} >
+            this.state.markers.push(<MapView.Marker coordinate={current} key={i}>
+                <MapView.Callout onPress={() => { this.setRout(rout) }}>
                     <MapCalloutCard name={data[i].name} location={data[i].location} />
                 </MapView.Callout>
             </MapView.Marker>);
@@ -91,16 +88,12 @@ export default class Map extends Component {
         this.setState({ loading: false });
     }
 
-    async setRout(marker) {
-        const userLocation = { 'latitude': this.state.region.latitude, 'longitude': this.state.region.longitude };
-        const markerCoords = marker.nativeEvent.coordinate;
-
-        const rout = await getRout(userLocation, markerCoords);
+    setRout(rout) {
         this.setState({
             rout: <MapView.Polyline
                 coordinates={rout}
                 strokeWidth={10}
-                strokeColor={'orange'} />
+                strokeColor={'blue'} />
         });
     }
 
@@ -110,10 +103,8 @@ export default class Map extends Component {
                 <MapView style={styles.map} region={this.state.region}
                     showsUserLocation={true}
                     showsMyLocationButton={true}
-                    customMapStyle={themes.light}
                 >
-                    {!this.state.loading &&
-                        markers}
+                    {this.state.markers}
                     {this.state.rout}
 
                 </MapView>

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Button, TextInput, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView, Button, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import Card from './CardView';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { getPlaceInfo } from '../assets/fetchPlaces';
 
 let data = []; //stores data to be passed to the card view
 let rawData = []; //stores all the data from the api request
@@ -38,13 +37,10 @@ export default class ListView extends Component {
     }
 
     /* add 10 elements to the list at a time */
-    async getListItems() {
+    getListItems() {
         if (end <= rawData.length) {
             for (let i = start; i < end; i++) {
-                const placeInfo = await getPlaceInfo(rawData[i].lat, rawData[i].lon, rawData[i].name);
-
                 data.push({
-                    id: i,
                     name: rawData[i].name,
                     type: rawData[i].type,
                     category: rawData[i].category,
@@ -52,7 +48,7 @@ export default class ListView extends Component {
                     distance: rawData[i].distance,
                     hours: rawData[i].hours,
                     open: rawData[i].open,
-                    placeInfo
+                    id: i
                 });
             }
             //the start index for the next iteration is the end index for the current one
@@ -81,23 +77,19 @@ export default class ListView extends Component {
                     <Icon name='md-search' style={styles.searchIcon} />
                     <TextInput placeholder='Search' style={styles.searchBar} onChangeText={(txt) => this.filterList(txt)} />
                 </View>
-                {this.state.loading ? <ActivityIndicator size='large' />
-                    :
-                    <ScrollView>
-                        {this.state.data.map((item, index) => (
+                <ScrollView>
+                    {!this.state.loading &&
+                        this.state.data.map((item, index) => (
                             <View key={item.id} style={{ width: '100%', alignItems: 'center' }} >
                                 <Card title={item.name} category={item.category} type={item.type}
                                     address={item.address} distance={item.distance} hours={item.hours}
-                                    open={item.open} placeInfo={item.placeInfo} key={item.id} />
-
+                                    open={item.open} key={item.id} />
                             </View>
-
                         ))
-                        }
+                    }
 
-                        < Button title='Load more' onPress={() => this.getListItems()} />
-                    </ScrollView>
-                }
+                    <Button title='Load more' onPress={() => this.getListItems()} />
+                </ScrollView>
             </View>
         );
     }

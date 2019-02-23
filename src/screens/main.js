@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Maps from './Maps';
-import ListView from './ListView';
-import Profile from './Profile';
-import getData from '../assets/fetchPlaces';
+import Maps from './map_screen/maps';
+import ListView from './listview_screen/listView';
+import Profile from './profile_screen/profile';
+import { getRestaurants } from '../config/fetchPlaces';
 
 let data = [];
 
 class Main extends Component {
 
     // top bar navigation settings
-
     static navigationOptions = {
-        title: 'Restaurant finder',
-        headerStyle: {
-            backgroundColor: 'red'
-        },
-        headerTintColor: '#fff', // text color
-        headerLeft: null // remove return button
+        header: null
     }
 
     constructor(props) {
@@ -56,7 +50,7 @@ class Main extends Component {
         // if the data array is empty or the data hasn't been fetched yet
         if (data.length === 0 || !this.state.dataFetched) {
             // make the api request
-            data = await getData(this.state.region.latitude, this.state.region.longitude);
+            data = await getRestaurants(this.state.region.latitude, this.state.region.longitude);
         }
 
         this.setState({ dataFetched: true });

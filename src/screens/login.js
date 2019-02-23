@@ -13,9 +13,11 @@ import PropTypes from 'prop-types';
 import { gql } from 'apollo-boost';
 import { graphql, Mutation } from 'react-apollo';
 
+//initilize graphql login mutation
 const LoginMutation = gql`
      mutation Login($userEmail: String!, $userPassword: String!) {
         Login(email: $userEmail, password: $userPassword) {
+            username
             email
             jwt
         }
@@ -24,6 +26,7 @@ const LoginMutation = gql`
 
 class Login extends Component {
 
+    //hide the topbar
     static navigationOptions = {
         header: null
     }
@@ -37,21 +40,29 @@ class Login extends Component {
     }
 
     async componentWillMount() {
+        //check the app's cache
         const data = JSON.parse(await AsyncStorage.getItem('user'));
+
+        //if user info already exists
         if (data) {
+            //transition to the app's main screen
             this.props.navigation.navigate('MainScreen');
         }
     }
 
     async handleSignin(e) {
-        const userData = { email: e.Login.email, jwt: e.Login.jwt };
+        //get the user data from the server
+        const userData = { username: e.Login.username, email: e.Login.email, jwt: e.Login.jwt };
 
         try {
+            //cache it
             await AsyncStorage.setItem('user', JSON.stringify(userData));
         }
         catch (err) {
             console.log(err);
         }
+
+        //transition to the app's main screen
         this.props.navigation.navigate('MainScreen');
     }
 

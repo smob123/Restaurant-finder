@@ -17,6 +17,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # configeration files
-appKeys.js
+src/config/appKeys.js
 restaurant-finder.jks
-src/assets/config.js
+src/config/config.js

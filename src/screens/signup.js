@@ -11,9 +11,11 @@ import {
 import { gql } from 'apollo-boost';
 import { graphql, Mutation } from 'react-apollo';
 
+//initialize graphql mutation
 const SignupMutation = gql`
      mutation Signup($userEmail: String!, $Username: String!, $userPassword: String!) {
         Signup(email: $userEmail, username: $Username, password: $userPassword) {
+            username
             email
             jwt
         }
@@ -21,6 +23,8 @@ const SignupMutation = gql`
 `;
 
 class Signup extends Component {
+
+    //hide topbar
     static navigationOptions = {
         header: null
     }
@@ -35,15 +39,18 @@ class Signup extends Component {
     }
 
     async handleSignup(e) {
-        const userData = { email: e.Signup.email, jwt: e.Signup.jwt };
+        //get returned data from the server
+        const userData = { username: e.Signup.username, email: e.Signup.email, jwt: e.Signup.jwt };
 
         try {
+            //cache the data
             await AsyncStorage.setItem('user', JSON.stringify(userData));
         }
         catch (err) {
             console.log(err);
         }
 
+        //transition to the apps main screen
         this.props.navigation.navigate('MainScreen');
     }
 

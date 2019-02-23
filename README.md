@@ -1,6 +1,6 @@
 # Restaurant finder
 
-This is a hybrid app that displays nearby restaurants using Google maps, and HERE places API.
+This is a hybrid app that displays nearby restaurants using Google maps, HERE places, and Yelp APIs.
 
 
 ## Running the project:
@@ -11,12 +11,12 @@ This is a hybrid app that displays nearby restaurants using Google maps, and HER
 ## Logging in
 Dummy user credentials:
 
-email: admin@email.com <br />
-Password: admin.
+email: johndoe@email.com <br />
+Password: johndoe
 
 
 ## Screenshots:
 
-<img src="https://user-images.githubusercontent.com/26127333/51407898-33262080-1b6e-11e9-80fe-53f9172993c3.PNG" width="35%" height="50%"/>
-<img src="https://user-images.githubusercontent.com/26127333/51408099-c3646580-1b6e-11e9-99d6-690f8d88b053.PNG" width="35%" height="50%"/>
-<img src="https://user-images.githubusercontent.com/26127333/51407907-36b9a780-1b6e-11e9-8826-267b9e458360.PNG" width="35%" height="50%"/>
+<img src="https://user-images.githubusercontent.com/26127333/53291515-625f2b80-37c5-11e9-9549-ee62de3f54a3.PNG" width="35%" height="50%"/>
+<img src="https://user-images.githubusercontent.com/26127333/53291517-6723df80-37c5-11e9-9fca-016af6a9ebb7.PNG" width="35%" height="50%"/>
+<img src="https://user-images.githubusercontent.com/26127333/53291519-6ab76680-37c5-11e9-9683-4bb4cc20b42f.PNG" width="35%" height="50%"/>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Maps from './map_screen/maps';
 import ListView from './listview_screen/listView';
+import ListItemDetails from './listview_screen/itemDetailsScreen/listItemDetailsScreen';
 import Profile from './profile_screen/profile';
 import { getRestaurants } from '../config/fetchPlaces';
 
@@ -65,6 +66,11 @@ class Main extends Component {
     }
 }
 
+const AppStackNavigator = createStackNavigator({
+    ListView: ListView,
+    ListItem: ListItemDetails
+});
+
 const TabNavigator = createBottomTabNavigator({
     Map: {
         screen: Maps,
@@ -76,7 +82,7 @@ const TabNavigator = createBottomTabNavigator({
         }
     },
     List: {
-        screen: ListView,
+        screen: AppStackNavigator,
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => (
                 // tab icon

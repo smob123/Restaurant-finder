@@ -7,9 +7,8 @@ import MapCalloutCard from './components/mapCalloutCard';
 import themes from '../../config/mapStyle';
 import getRout from '../../config/fetchRoutes';
 
-
-let dataArray = []; // stores data from the api request
-let markers = [];
+let dataArray = []; //stores data from the api request
+let markers = []; //stores all the fetched markers
 
 export default class Map extends Component {
 
@@ -24,13 +23,11 @@ export default class Map extends Component {
                 latitudeDelta: 300,
                 longitudeDelta: 300
             },
-            markers: [], //map markers that display restaurant locations
+            markers: [], //map markers that are displyed on the map
             rout: [], //the rout from the user's location to the chosen restaurant
             loading: true
         }
     }
-
-    // check if data was already fetched before
 
     componentWillMount() {
         // check location permissions
@@ -55,10 +52,12 @@ export default class Map extends Component {
         // pass current location data to Main.js
         await this.props.screenProps.passLocation(this.state.region);
 
+        //if data has not already been fetched
         if (this.state.markers.length === 0) {
-            this.fetchData();
+            this.fetchData(); //make an api request
         }
         else {
+            //otherwise show the stored data
             this.setState({ loading: false });
         }
     }
@@ -81,8 +80,8 @@ export default class Map extends Component {
 
             // push current credintials into a marker, and set its callout card data
             markers.push(<MapView.Marker coordinate={current} key={i}>
-                <MapView.Callout onPress={(e) => this.setRout(e)} >
-                    <MapCalloutCard name={data[i].name} location={data[i].location} />
+                <MapView.Callout onPress={() => this.setRout(markers[i])} >
+                    <MapCalloutCard name={data[i].title} location={data[i].address} />
                 </MapView.Callout>
             </MapView.Marker>);
         }
@@ -92,15 +91,33 @@ export default class Map extends Component {
     }
 
     async setRout(marker) {
-        const userLocation = { 'latitude': this.state.region.latitude, 'longitude': this.state.region.longitude };
-        const markerCoords = marker.nativeEvent.coordinate;
+        let polylineCoords, rout, filteredMarkersList;
 
-        const rout = await getRout(userLocation, markerCoords);
-        this.setState({
-            rout: <MapView.Polyline
-                coordinates={rout}
+        //if the rout object is not set
+        if (this.state.rout.props === undefined) {
+            const userLocation = { 'latitude': this.state.region.latitude, 'longitude': this.state.region.longitude };
+            const markerCoords = marker.props.coordinate;
+
+            polylineCoords = await getRout(userLocation, markerCoords); //fetch the points to draw the polyline
+
+            //set the rout object
+            rout = <MapView.Polyline
+                coordinates={polylineCoords}
                 strokeWidth={10}
-                strokeColor={'orange'} />
+                strokeColor={'orange'} />;
+
+            //set the filtered list to only show the sepcefied marker
+            filteredMarkersList = [marker];
+        }
+        else {
+            //otherwise reset the objects to their previous values
+            rout = [];
+            filteredMarkersList = markers;
+        }
+
+        this.setState({
+            rout,
+            markers: filteredMarkersList
         });
     }
 

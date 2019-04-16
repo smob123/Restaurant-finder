@@ -3,14 +3,14 @@ import { StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native'; //
 import Login from './src/screens/login';
 import Main from './src/screens/main';
 import Signup from './src/screens/signup';
-import { createStackNavigator } from 'react-navigation';
+import { createSwitchNavigator } from 'react-navigation';
 import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { createUploadLink } from 'apollo-upload-client'
 import { Font } from 'expo';
 
 //initialize stack navigator
-const AppStackNavigator = createStackNavigator({
+const AppSwitchNavigator = createSwitchNavigator({
     LoginScreen: Login,
     SignupScreen: Signup,
     MainScreen: Main
@@ -34,6 +34,7 @@ export default class App extends Component {
         };
     }
     componentDidMount() {
+        //load custom fonts
         Font.loadAsync({
             'oswald': require('./assets/fonts/Oswald-SemiBold.ttf'),
             'quick-sand-medium': require('./assets/fonts/Quicksand-Medium.ttf'),
@@ -47,7 +48,7 @@ export default class App extends Component {
                 {
                     this.state.fontsLoaded &&
                     <SafeAreaView style={styles.container}>
-                        <AppStackNavigator />
+                        <AppSwitchNavigator />
                     </SafeAreaView>
                 }
             </ApolloProvider>

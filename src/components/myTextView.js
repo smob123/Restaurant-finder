@@ -17,8 +17,6 @@ export default class MText extends Component {
 
     setFontFamily(fontFamily) {
         this.setState({ fontFamily });
-
-        console.log(this.state.fontFamily, this.props.children);
     }
 
     render() {

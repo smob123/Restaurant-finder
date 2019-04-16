@@ -8,8 +8,7 @@ export default class MapCalloutCard extends Component {
         super(props);
         this.state = {
             name: '',
-            location: '',
-            visibile: false
+            location: ''
         };
     }
 

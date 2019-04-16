@@ -11,6 +11,10 @@ let start = 0; end = 10; //keep track of the number of elements in the list
 
 export default class ListView extends Component {
 
+    static navigationOptions = {
+        header: null
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -41,20 +45,16 @@ export default class ListView extends Component {
     async getListItems() {
         if (end <= rawData.length) {
             for (let i = start; i < end; i++) {
-                const placeInfo = await getPlaceInfo(rawData[i].lat, rawData[i].lon, rawData[i].name);
+                let place = await getPlaceInfo(rawData[i].lat, rawData[i].lon, rawData[i].title);
+
+                let placeInfo = { ...rawData[i], ...place };
 
                 data.push({
                     id: i,
-                    name: rawData[i].name,
-                    type: rawData[i].type,
-                    category: rawData[i].category,
-                    address: rawData[i].location,
-                    distance: rawData[i].distance,
-                    hours: rawData[i].hours,
-                    open: rawData[i].open,
-                    placeInfo
+                    placeInfo: placeInfo
                 });
             }
+
             //the start index for the next iteration is the end index for the current one
             start = end;
             end += 10;
@@ -87,13 +87,9 @@ export default class ListView extends Component {
                         <ScrollView>
                             {
                                 this.state.data.map((item, index) => (
-                                    <View key={item.id} style={{ width: '100%', alignItems: 'center' }} >
-                                        <Card title={item.name} category={item.category} type={item.type}
-                                            address={item.address} distance={item.distance} hours={item.hours}
-                                            open={item.open} placeInfo={item.placeInfo} key={item.id} />
-
+                                    <View key={item.placeInfo.placeId + index.toString()} style={{ width: '100%', alignItems: 'center' }} >
+                                        <Card data={item} key={item.placeInfo.placeId} navigation={this.props.navigation} />
                                     </View>
-
                                 ))
                             }
 

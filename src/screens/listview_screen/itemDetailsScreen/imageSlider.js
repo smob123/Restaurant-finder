@@ -33,11 +33,11 @@ export default class ImageSlider extends Component {
                     data={imageUrls}
                     keyExtractor={(item, index) => item}
                     renderItem={({ item, index }) => <Image source={{ uri: item }} key={item + index}
-                        style={styles.image} />}
+                        style={styles.image} resizeMode='contain' />}
                 />
 
                 :
-                <Image source={require('../../../images/food.jpeg')} style={styles.image} />
+                <Image source={require('../../../images/food.jpeg')} style={styles.image} resizeMode='contain' />
         );
     }
 
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: width,
-        height: height / 3
+        height: height / 3,
+        flex: 1
     }
 });

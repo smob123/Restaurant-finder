@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Maps from './map_screen/maps';
 import ListView from './listview_screen/listView';
@@ -9,7 +9,7 @@ import { getRestaurants } from '../config/fetchPlaces';
 
 let data = [];
 
-class Main extends Component {
+export default class Main extends Component {
 
     // top bar navigation settings
     static navigationOptions = {
@@ -61,16 +61,18 @@ class Main extends Component {
 
     render() {
         return (
-            <TabNavigator screenProps={this.state} />
+            <AppContainer screenProps={this.state} />
         );
     }
 }
 
+//add listView, and listItem in their own StackNavigator, to allow navigation between the two screens
 const AppStackNavigator = createStackNavigator({
     ListView: ListView,
     ListItem: ListItemDetails
 });
 
+//TabNavigator; ie, BottomNavigationBar
 const TabNavigator = createBottomTabNavigator({
     Map: {
         screen: Maps,
@@ -111,4 +113,4 @@ const TabNavigator = createBottomTabNavigator({
         }
     });
 
-export default Main;
+const AppContainer = createAppContainer(TabNavigator);

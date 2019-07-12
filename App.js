@@ -1,20 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native'; //SafeAreaView to optimize the app for phone nothces
-import Login from './src/screens/login';
-import Main from './src/screens/main';
-import Signup from './src/screens/signup';
-import { createSwitchNavigator } from 'react-navigation';
+import Nav from './Nav';
 import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { createUploadLink } from 'apollo-upload-client'
 import { Font } from 'expo';
-
-//initialize stack navigator
-const AppSwitchNavigator = createSwitchNavigator({
-    LoginScreen: Login,
-    SignupScreen: Signup,
-    MainScreen: Main
-});
 
 //connect to the graphql server
 const client = new ApolloClient({
@@ -27,12 +17,13 @@ const appTopMargin = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 
 export default class App extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             fontsLoaded: false
         };
     }
+
     componentDidMount() {
         //load custom fonts
         Font.loadAsync({
@@ -48,7 +39,7 @@ export default class App extends Component {
                 {
                     this.state.fontsLoaded &&
                     <SafeAreaView style={styles.container}>
-                        <AppSwitchNavigator />
+                        <Nav />
                     </SafeAreaView>
                 }
             </ApolloProvider>

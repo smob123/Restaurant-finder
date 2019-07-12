@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "jest-expo": "~32.0.0",
-    "react-test-renderer": "16.6.0"
+    "jest-expo": "^32.0.1",
+    "react-test-renderer": "16.8.6"
   },
   "main": "./node_modules/expo/AppEntry.js",
   "scripts": {
@@ -18,19 +18,19 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "apollo-boost": "^0.1.28",
-    "apollo-upload-client": "^10.0.0",
-    "expo": "^32.0.0",
-    "expo-cli": "^2.11.6",
-    "graphql": "^14.1.1",
+    "apollo-boost": "^0.3.1",
+    "apollo-upload-client": "^10.0.1",
+    "expo": "^32.0.6",
+    "expo-cli": "^2.21.2",
+    "graphql": "^14.4.2",
     "react": "16.5.0",
-    "react-apollo": "^2.4.1",
+    "react-apollo": "^2.5.8",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-native-maps": "^0.23.0",
+    "react-native-maps": "^0.24.2",
     "react-native-maps-directions": "^1.6.0",
     "react-native-scripts": "^2.0.1",
-    "react-native-vector-icons": "^6.3.0",
-    "react-navigation": "^2.18.3"
+    "react-native-vector-icons": "^6.6.0",
+    "react-navigation": "^3.11.0"
   },
   "rnpm": {
     "assets": [

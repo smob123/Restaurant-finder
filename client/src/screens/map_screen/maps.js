@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Alert } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import MapView from 'react-native-maps';
 import PropTypes from 'prop-types';
-import { Location, Permissions } from 'expo';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 import MapCalloutCard from './components/mapCalloutCard';
 import themes from '../../config/mapStyle';
 import getRout from '../../config/fetchRoutes';
@@ -39,7 +40,7 @@ export default class Map extends Component {
         if (status !== 'granted') {
             Alert.alert('Permission was not granted!');
         }
-        let location = await Location.getCurrentPositionAsync({});
+        await Location.getCurrentPositionAsync({});
         this.setState({
             region: {
                 latitude: location.coords.latitude,

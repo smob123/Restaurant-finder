@@ -1,0 +1,22 @@
+{
+  "name": "restaurant-finder-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "develop": "nodemon index.js"
+  },
+  "author": "Sultan",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.3",
+    "cors": "^2.8.5",
+    "event-stream": "^3.3.4",
+    "express": "^4.16.4",
+    "express-graphql": "^0.7.1",
+    "graphql": "^14.0.2",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.3.15"
+  }
+}

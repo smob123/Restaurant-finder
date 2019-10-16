@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Maps from './map_screen/maps';
 import ListView from './listview_screen/listView';

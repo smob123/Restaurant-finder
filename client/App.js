@@ -4,7 +4,7 @@ import Nav from './Nav';
 import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { createUploadLink } from 'apollo-upload-client'
-import { Font } from 'expo';
+import * as Font from 'expo-font';
 
 //connect to the graphql server
 const client = new ApolloClient({
@@ -24,9 +24,9 @@ export default class App extends Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         //load custom fonts
-        Font.loadAsync({
+        await Font.loadAsync({
             'oswald': require('./assets/fonts/Oswald-SemiBold.ttf'),
             'quick-sand-medium': require('./assets/fonts/Quicksand-Medium.ttf'),
             'quick-sand-bold': require('./assets/fonts/Quicksand-Bold.ttf')

@@ -4,7 +4,7 @@
     "version": "0.1.0",
     "icon": "./src/images/app-icon.png",
     "slug": "restaurant-finder",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "35.0.0",
     "ios": {
       "bundleIdentifier": "com.example.restaurantFinder"
     },

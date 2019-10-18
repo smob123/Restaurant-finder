@@ -117,14 +117,11 @@ async function followMoreImagesLink(url) {
 
 async function getMainPageImages(html) {
     //get all the restaurant image elements in the html
-    const allImageUrls = html.match(/srcset="https:\s?.*\b258s.jpg\b/g);
-
-    //grab the first three elements
-    const imageUrls = allImageUrls.slice(0, 3);
+    const allImageUrls = html.match(/src="https:\/\/s3-media\d.fl.yelpcdn.com\/bphoto\/\s?.*?\b\w\.jpg\b/g);
 
     //get their urls
-    imageUrls.forEach((item, index) => {
-        imageUrls[index] = item.match(/https:\s?.*\b258s.jpg\b/).toString();
+    allImageUrls.forEach((item, index) => {
+        imageUrls[index] = item.match(/https:\s?.*\b\w\.jpg\b/).toString();
     });
 
     return imageUrls;

@@ -21,4 +21,4 @@ client/yarn-error.log*
 client/src/config/appKeys.js
 client/restaurant-finder.jks
 client/src/config/config.js
-server/config
+server/config.js

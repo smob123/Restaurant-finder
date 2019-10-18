@@ -40,7 +40,7 @@ export default class Map extends Component {
         if (status !== 'granted') {
             Alert.alert('Permission was not granted!');
         }
-        await Location.getCurrentPositionAsync({});
+        const location = await Location.getCurrentPositionAsync({});
         this.setState({
             region: {
                 latitude: location.coords.latitude,

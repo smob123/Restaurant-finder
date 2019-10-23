@@ -8,7 +8,10 @@ const schema = require('./schema');
 const PORT = process.env.PORT || 8080;
 
 const url = process.env.DATABASE_URL || require('./config');
-mongoose.connect(url, { useNewUrlParser: true });
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 mongoose.connection.once(('open'), () => {
     console.log('connected to the database!');

@@ -11,8 +11,8 @@ This is a hybrid app that displays nearby restaurants using Google maps, HERE pl
 ## Logging in
 Dummy user credentials:
 
-email: johndoe@email.com <br />
-Password: johndoe
+email: admin@email.com <br />
+Password: admin
 
 
 ## Screenshots:

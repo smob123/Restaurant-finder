@@ -119,6 +119,8 @@ async function getMainPageImages(html) {
     //get all the restaurant image elements in the html
     const allImageUrls = html.match(/src="https:\/\/s3-media\d.fl.yelpcdn.com\/bphoto\/\s?.*?\b\w\.jpg\b/g);
 
+    const imageUrls = [];
+
     //get their urls
     allImageUrls.forEach((item, index) => {
         imageUrls[index] = item.match(/https:\s?.*\b\w\.jpg\b/).toString();

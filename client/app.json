@@ -15,6 +15,11 @@
           "apiKey": "AIzaSyABBRZVkw2yp1k9fI0lCRgga_vN0WSWcDM"
         }
       }
-    }
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "description": ""
   }
 }
